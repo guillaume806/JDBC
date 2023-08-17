@@ -1,9 +1,11 @@
 package org.example;
 
+
+
 import org.example.utlis.DatabaseManager;
 
 import java.sql.*;
-import java.util.Date;
+
 import java.util.Scanner;
 
 import static org.example.Student.*;
@@ -14,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        try (Connection connection = DriverManager.getConnection(url, user, password)) {
+        try (Connection connection = DatabaseManager.getPostgreSQLConnection()) {
             while (true) {
                 System.out.println("Menu:");
                 System.out.println("1. Ajouter un étudiant");
@@ -23,7 +25,7 @@ public class Main {
                 System.out.println("4. Supprimer un étudiant");
                 System.out.println("5. Quitter");
                 System.out.print("Choix : ");
-                Scanner scanner;
+                Scanner scanner = new Scanner(System.in);
                 int choice = scanner.nextInt();
 
                 switch (choice) {
@@ -46,6 +48,11 @@ public class Main {
                         System.out.println("Choix invalide.");
                 }
             }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
+
     }
+}
