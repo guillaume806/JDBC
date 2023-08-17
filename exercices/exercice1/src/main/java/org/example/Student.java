@@ -9,7 +9,7 @@ public class Student {
 
     private String prenom;
 
-    private String classe;
+    private int classe;
 
     private String dateDiplome;
 
@@ -20,16 +20,16 @@ public class Student {
         System.out.print("Prénom : ");
         String prenom = scanner.next();
         System.out.print("Numéro de classe : ");
-        String classe = scanner.next();
+        int classe = Integer.parseInt(scanner.next());
         System.out.print("Date de diplôme (AAAA-MM-JJ) : ");
         String dateDiplome = scanner.next();
 
-        String query = "INSERT INTO etudiant (first_name, last_name, number_class, date_diplome) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO etudiant (first_name, last_name, number_class, diplome_date) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, nom);
             preparedStatement.setString(2, prenom);
-            preparedStatement.setString(3, classe);
+            preparedStatement.setInt(3, classe);
             preparedStatement.setDate(4, Date.valueOf(dateDiplome));
 
             int rowsAffected = preparedStatement.executeUpdate();
@@ -51,7 +51,7 @@ public class Student {
                 String nom = resultSet.getString("first_name");
                 String prenom = resultSet.getString("last_name");
                 String classe = resultSet.getString("number_class");
-                Date dateDiplome = resultSet.getDate("date_diplome");
+                Date dateDiplome = resultSet.getDate("diplome_date");
 
                 System.out.println("ID : " + id);
                 System.out.println("Nom : " + nom);
@@ -65,19 +65,19 @@ public class Student {
 
     public static void listEtudiantsByClasse(Connection connection, Scanner scanner) throws SQLException {
         System.out.print("Numéro de classe : ");
-        String classe = scanner.next();
+        int classe = Integer.parseInt(scanner.next());
 
-        String query = "SELECT * FROM etudiant WHERE classe = ?";
+        String query = "SELECT * FROM etudiant WHERE number_class = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setString(1, classe);
+            preparedStatement.setInt(1, classe);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
                     String nom = resultSet.getString("first_name");
                     String prenom = resultSet.getString("last_name");
-                    Date dateDiplome = resultSet.getDate("date_diplome");
+                    Date dateDiplome = resultSet.getDate("diplome_date");
 
                     System.out.println("ID : " + id);
                     System.out.println("Nom : " + nom);

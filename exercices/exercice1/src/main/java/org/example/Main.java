@@ -16,7 +16,8 @@ public class Main {
     public static void main(String[] args) {
 
 
-        try (Connection connection = DatabaseManager.getPostgreSQLConnection()) {
+        try {
+            Connection connection = DatabaseManager.getPostgreSQLConnection();
             while (true) {
                 System.out.println("Menu:");
                 System.out.println("1. Ajouter un étudiant");
