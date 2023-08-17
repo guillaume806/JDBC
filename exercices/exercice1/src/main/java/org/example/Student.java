@@ -24,7 +24,7 @@ public class Student {
         System.out.print("Date de diplôme (AAAA-MM-JJ) : ");
         String dateDiplome = scanner.next();
 
-        String query = "INSERT INTO etudiant (nom, prenom, classe, date_diplome) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO etudiant (first_name, last_name, number_class, date_diplome) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, nom);
@@ -48,9 +48,9 @@ public class Student {
              ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
-                String nom = resultSet.getString("nom");
-                String prenom = resultSet.getString("prenom");
-                String classe = resultSet.getString("classe");
+                String nom = resultSet.getString("first_name");
+                String prenom = resultSet.getString("last_name");
+                String classe = resultSet.getString("number_class");
                 Date dateDiplome = resultSet.getDate("date_diplome");
 
                 System.out.println("ID : " + id);
@@ -75,8 +75,8 @@ public class Student {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
-                    String nom = resultSet.getString("nom");
-                    String prenom = resultSet.getString("prenom");
+                    String nom = resultSet.getString("first_name");
+                    String prenom = resultSet.getString("last_name");
                     Date dateDiplome = resultSet.getDate("date_diplome");
 
                     System.out.println("ID : " + id);
